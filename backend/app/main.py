@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 
+from app.api.v1.endpoints import auth
+
 # Crear instancia de FastAPI
 app = FastAPI(
     title=settings.PROJECT_NAME,
@@ -37,3 +39,8 @@ async def health_check():
         "status": "healthy",
         "environment": settings.ENVIRONMENT,
     }
+
+
+app.include_router(
+    auth.router, prefix=f"{settings.API_V1_PREFIX}/auth", tags=["Authentication"]
+)

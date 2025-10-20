@@ -38,6 +38,5 @@ alembic/versions/*.py
 .pytest_cache/
 .coverage
 htmlcov/
-/docs
-CLAUDE.md
+
 
