@@ -1,8 +1,3 @@
-"""
-Operaciones CRUD para usuarios.
-Capa de abstracción entre las rutas y la base de datos.
-"""
-
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from typing import Optional

@@ -5,9 +5,9 @@ Modelo de Videojuego importado desde RAWG API.
 import uuid
 from datetime import datetime, date, timezone
 from typing import TYPE_CHECKING, Optional
-from sqlalchemy import String, Text, Numeric, Integer, Boolean, Date, DateTime, JSON
+from sqlalchemy import String, Text, Numeric, Integer, Boolean, Date, DateTime
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import UUID, ARRAY
 from app.core.database import Base
 
 if TYPE_CHECKING:
@@ -74,16 +74,16 @@ class Game(Base):
         comment="Imagen de fondo para detalles",
     )
 
-    # Metadata (almacenado como JSON)
-    genres: Mapped[Optional[dict]] = mapped_column(
-        JSON,
+    # Metadata (almacenado como ARRAY de strings)
+    genres: Mapped[Optional[list[str]]] = mapped_column(
+        ARRAY(String),
         nullable=True,
-        comment="Lista de géneros: [{'id': 1, 'name': 'Action'}]",
+        comment="Lista de géneros: ['Action', 'RPG']",
     )
-    platforms: Mapped[Optional[dict]] = mapped_column(
-        JSON,
+    platforms: Mapped[Optional[list[str]]] = mapped_column(
+        ARRAY(String),
         nullable=True,
-        comment="Plataformas disponibles",
+        comment="Plataformas disponibles: ['PC', 'PlayStation 5']",
     )
 
     # Ratings
