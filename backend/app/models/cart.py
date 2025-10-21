@@ -19,6 +19,7 @@ if TYPE_CHECKING:
 
 class Cart(Base):
     """Carrito de compras del usuario (uno por usuario)"""
+
     __tablename__ = "carts"
 
     # Primary Key
@@ -62,6 +63,7 @@ class Cart(Base):
 
 class CartItem(Base):
     """Item individual dentro de un carrito"""
+
     __tablename__ = "cart_items"
 
     # Primary Key
