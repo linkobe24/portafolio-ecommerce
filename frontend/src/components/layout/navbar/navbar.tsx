@@ -14,12 +14,10 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="container flex h-16 items-center">
-        {/* Logo */}
         <Link href="/" className="mr-6 flex items-center space-x-2">
           <span className="text-xl font-bold">MemoryCard</span>
         </Link>
 
-        {/* Desktop Navigation */}
         <nav className="hidden md:flex md:flex-1 md:items-center md:gap-6">
           {NAV_LINKS.map((link) => (
             <NavLink key={link.href} href={link.href}>
@@ -28,7 +26,6 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* Actions */}
         <div className="flex flex-1 items-center justify-end gap-2">
           <NavActions />
           <MobileMenu links={NAV_LINKS} />

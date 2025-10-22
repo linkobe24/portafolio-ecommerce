@@ -28,16 +28,15 @@ import uuid
 router = APIRouter()
 
 
-@router.post(
-    "/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED
-)
+@router.post("/register", response_model=Token, status_code=status.HTTP_201_CREATED)
 async def register(user_data: UserRegister, db: AsyncSession = Depends(get_db)):
     """
-    Registrar nuevo usuario.
+    Registrar nuevo usuario y auto-login.
 
     - Verifica que el email no esté en uso
     - Hashea la contraseña
     - Crea el usuario con rol USER por defecto
+    - Genera tokens automáticamente
     """
     existing_user = await crud_user.get_user_by_email(db, user_data.email)
     if existing_user:
@@ -54,7 +53,16 @@ async def register(user_data: UserRegister, db: AsyncSession = Depends(get_db)):
 
     user = await crud_user.create_user(db, user_create)
 
-    return user
+    # Auto-login: generar tokens
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": str(user.id)}, expires_delta=access_token_expires
+    )
+    refresh_token = create_refresh_token(data={"sub": str(user.id)})
+
+    return Token(
+        access_token=access_token, refresh_token=refresh_token, token_type="bearer"
+    )
 
 
 @router.post("/login", response_model=Token)
